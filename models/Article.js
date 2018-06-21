@@ -17,6 +17,10 @@ var ArticleSchema = new Schema({
     img: {
         type: String
     },
+    saved:{
+        type: Boolean,
+        default: false
+    },
     note: [
         {
             type: Schema.Types.ObjectId,

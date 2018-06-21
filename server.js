@@ -40,6 +40,11 @@ mongoose.connect("mongodb://localhost/mongoscraper");
 app.get("/", function(req, res) {
     res.render("index");
 });
+
+app.get("/saved", function(req, res){
+    res.render("saved");
+});
+
 app.get("/scrape", function(req, res){
     axios.get("https://www.boredpanda.com/")
         .then(function(response){
@@ -55,14 +60,23 @@ app.get("/scrape", function(req, res){
                 
                 db.Article.create(result)
                 .then(function(dbArticle){
-                    // console.log(dbArticle);
+                    console.log(dbArticle);
                 })
                 .catch(function(err){
                     return res.json(err);
                 });
             });
-            res.send("Scrape Complete");
+            res.redirect('/');
         });
+});
+
+app.get('/save/:id', function(req, res){
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: true }, { new: true })
+    .then(function(dbArticle){
+        console.log('success');
+    }).catch(function(err){
+        res.json(err);
+    });
 });
 
 app.get("/articles", function(req, res) {

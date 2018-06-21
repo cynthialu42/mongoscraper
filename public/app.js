@@ -3,7 +3,53 @@ $.getJSON("/articles", function(data) {
     // For each one
     for (var i = 0; i < data.length; i++) {
       // Display the apropos information on the page
-      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br />" + data[i].info + "<br />" + data[i].img + "</p>");
+
+
+        var row = $('<div>');
+        row.addClass('row article-style');
+
+        var col3 = $('<div>');
+        col3.addClass('col-3');
+     
+        var img = $('<img>');
+        img.attr('src', data[i].img);
+        img.addClass('img-style');
+
+        col3.append(img);
+
+        var col9 = $('<div>');
+        col9.addClass('col-9');
+
+        var link = $('<a>');
+        link.addClass('link-style');
+        link.attr('href', data[i].link);
+
+        var title = $('<h3>');
+        title.addClass('card-title').text(data[i].title);
+
+        link.append(title);
+
+        var info = $('<p>');
+        info.addClass('card-text').text(data[i].info);
+
+        var save = $('<a>');
+        save.addClass('btn btn-primary');
+        save.attr('href', "/save/"+data[i]._id);
+        save.text("/save/"+data[i]._id);
+
+        col9.append(link).append(info).append(save);
+
+        row.append(col3).append(col9);
+
+        
+        // cardBody.append(title).append(info);
+        // card.append(img).append(cardBody);
+        // link.append(card);
+
+        
+
+      $('#articles').append(row);
+    //   $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br />" + data[i].info + "<br />" + data[i].img + "</p>");
     }
   });
   
