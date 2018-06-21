@@ -15,8 +15,8 @@ $.getJSON("/api/saved", function(data) {
 
         col3.append(img);
 
-        var col9 = $('<div>');
-        col9.addClass('col-9');
+        var col8 = $('<div>');
+        col8.addClass('col-8');
 
         var link = $('<a>');
         link.addClass('link-style');
@@ -30,30 +30,43 @@ $.getJSON("/api/saved", function(data) {
         var info = $('<p>');
         info.addClass('card-text').text(data[i].info);
 
-        var save = $('<a>');
-        save.addClass('btn btn-primary');
-        save.attr('href', "/save/"+data[i]._id);
-        save.text("/save/"+data[i]._id);
+        // var save = $('<a>');
+        // save.addClass('btn btn-primary');
+        // save.attr('href', "/save/"+data[i]._id);
+        // save.text("/save/"+data[i]._id);
 
-        col9.append(link).append(info).append(save);
+        var comment = $('<a>');
+        comment.addClass('btn btn-primary comment-btn');
+        comment.text("comment");
 
-        row.append(col3).append(col9);
+        col8.append(link).append(info).append(comment);
 
-        
-        // cardBody.append(title).append(info);
-        // card.append(img).append(cardBody);
-        // link.append(card);
+        var col1 = $('<div>');
+        col1.addClass('col-1');
 
-        
+        var button = $('<a>');
+        button.addClass('delete-btn');
+        button.attr('href', '/delete/'+data[i]._id);
+        var ximg = $('<i>');
+        ximg.addClass('fas fa-times fa-2x');
+        button.attr('data-id', data[i]._id);
+
+        button.append(ximg);
+        col1.append(button);
+        row.append(col3).append(col8).append(col1);
 
       $('#saved-articles').append(row);
     //   $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br />" + data[i].info + "<br />" + data[i].img + "</p>");
     }
   });
   
-  
+  $(document).on('click', '.delete-btn', function(){
+    var thisId = $(this).attr('data-id');
+    console.log(thisId);
+
+  });
   // Whenever someone clicks a p tag
-  $(document).on("click", "p", function() {
+  $(document).on("click", ".comment-btn", function() {
     // Empty the notes from the note section
     $("#notes").empty();
     // Save the id from the p tag

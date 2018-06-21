@@ -50,3 +50,8 @@ body, html {
     text-decoration: none;
     color: rgb(148, 148, 148);
 }
+
+.delete-btn{
+    background: none;
+    border:none;
+}

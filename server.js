@@ -89,6 +89,15 @@ app.get('/api/saved', function(req, res){
     });
 });
 
+app.get('/delete/:id', function(req, res){
+    db.Article.remove({_id: req.params.id})
+    .then(function(dbArticle){
+        res.render('saved');
+    }).catch(function(err){
+        res.json(err);
+    });
+});
+
 app.get("/articles", function(req, res) {
     db.Article.find({})
     .then(function(dbArticle){
