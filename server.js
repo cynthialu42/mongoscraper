@@ -41,15 +41,17 @@ app.get("/", function(req, res) {
     res.render("index");
 });
 app.get("/scrape", function(req, res){
-    axios.get("http://www.echojs.com/")
+    axios.get("https://www.boredpanda.com/")
         .then(function(response){
             var $ = cheerio.load(response.data);
             // console.log(response.data);
-            $("article h2").each(function(i, element){
+            $("article").each(function(i, element){
                 var result = {};
 
-                result.title = $(this).children("a").text();
-                result.link = $(this).children("a").attr("href");
+                result.title = $(this).children("h2").children("a").text();
+                result.link = $(this).children("h2").children("a").attr("href");
+                result.info = $(this).children("div.intro").children("p.visible-downto-xs").text();
+                result.img = $(this).children("header").children("div").children("a").children("img").attr("src");
                 
                 db.Article.create(result)
                 .then(function(dbArticle){
