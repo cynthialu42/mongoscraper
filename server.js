@@ -79,6 +79,16 @@ app.get('/save/:id', function(req, res){
     });
 });
 
+app.get('/api/saved', function(req, res){
+    db.Article.find({
+        saved: true
+    }).then(function(dbArticle){
+        res.json(dbArticle);
+    }).catch(function(err){
+        res.json(err);
+    });
+});
+
 app.get("/articles", function(req, res) {
     db.Article.find({})
     .then(function(dbArticle){
