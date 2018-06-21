@@ -35,7 +35,11 @@ $.getJSON("/api/saved", function(data) {
         // save.attr('href', "/save/"+data[i]._id);
         // save.text("/save/"+data[i]._id);
 
-        var comment = $('<a>');
+        var comment = $('<button>');
+        comment.attr('type', 'button');
+        comment.attr('data-toggle', 'modal');
+        comment.attr('data-target', '#exampleModal');
+        comment.attr('data-id', data[i]._id);
         comment.addClass('btn btn-primary comment-btn');
         comment.text("comment");
 
@@ -60,6 +64,18 @@ $.getJSON("/api/saved", function(data) {
     }
   });
   
+//   $(document).on('click', '.comment-btn', function(){
+//     var thisId = $(this).attr('data-id');
+//     console.log(thisId);
+
+//     $.ajax({
+//         method: "GET",
+//         url: "/api/saved/"+thisId
+//     }).then(function(data){
+
+//     })
+//   });
+
   $(document).on('click', '.delete-btn', function(){
     var thisId = $(this).attr('data-id');
     console.log(thisId);
@@ -68,7 +84,7 @@ $.getJSON("/api/saved", function(data) {
   // Whenever someone clicks a p tag
   $(document).on("click", ".comment-btn", function() {
     // Empty the notes from the note section
-    $("#notes").empty();
+    // $("#notes").empty();
     // Save the id from the p tag
     var thisId = $(this).attr("data-id");
   
@@ -82,21 +98,54 @@ $.getJSON("/api/saved", function(data) {
         console.log("((((((999999999999999%%%%%%%%%%%%%%%%%%%%%%");
         console.log(data);
         // The title of the article
-        $("#notes").append("<h2>" + data.title + "</h2>");
-        // An input to enter a new title
-        $("#notes").append("<input id='titleinput' name='title' >");
-        // A textarea to add a new note body
-        $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
-        // A button to submit a new note, with the id of the article saved to it
-        $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
+        var modal = $("<div class = 'modal fade' id = 'exampleModal' tabindex= '-1' role = 'dialog'>");
+        var modalDialog = $("<div class = 'modal-dialog' role = 'document'>");
+        var modalContent = $("<div class = 'modal-content'>");
+        var modalHeader = $("<div class = 'modal-header'>");
+        var modalTitle = $("<h5 class = 'modal-title'>");
+        modalTitle.text(data.title);
+        var modalBody = $("<div class = 'modal-body'>");
+
+        // var notes = $("<div ")
+        var notesBlock = $('<div class = "d-flex">');
+        var prevName = $("<p class = 'text-left' style = 'width: 30%;left:0;'>");
+        prevName.text("Cynthia");
+        var prevComment = $("<p class = 'text-right' style = 'width: 70%;right:0;'>");
+        prevComment.text("Hello i like birds alot Hello i like birds alotHello i like birds alotHello i like birds alotHello i like birds alotHello i like birds alotHello i like birds alot");
+        notesBlock.append(prevName).append(prevComment);
+
+        var form = $("<form>");
+        var nameGroup = $("<div class='form-group'>");
+        var nameLabel = $('<label for="titleinput" class="col-form-label">');
+        nameLabel.text('Name:');
+        var name = $("<input id = 'titleinput' name = 'title' type = 'text' class = 'form-control' placeholder='Enter your name'>");
+        nameGroup.append(nameLabel).append(name);
         
-        // If there's a note in the article
-        if (data.note) {
-          // Place the title of the note in the title input
-          $("#titleinput").val(data.note.title);
-          // Place the body of the note in the body textarea
-          $("#bodyinput").val(data.note.body);
-        }
+
+        var commentGroup = $("<div class='form-group'>");
+        var commentLabel = $('<label for="bodyinput" class="col-form-label">');
+        commentLabel.text('Comment:');
+        var commentArea = $("<textarea id = 'bodyinput' name = 'body' class = 'form-control' placeholder = 'Enter a comment'>");
+        commentGroup.append(commentLabel).append(commentArea);
+
+        form.append(nameGroup).append(commentGroup);
+
+        modalBody.append(notesBlock).append(form);
+
+        var modalFooter = $("<div class = 'modal-footer'>");
+        var close = $("<button type = 'button' class = 'btn btn-secondary' data-dismiss = 'modal'>");
+        close.text("Close");
+        var save = $("<button type = 'button' class = 'btn btn-primary' id = 'savenote'>");
+        save.attr('data-id', data._id);
+        save.text("Save Changes");
+
+        modalFooter.append(close).append(save);
+        modalHeader.append(modalTitle);
+        modalContent.append(modalHeader).append(modalBody).append(modalFooter);
+        modalDialog.append(modalContent);
+        modal.append(modalDialog);
+
+        $(".modal-popup").append(modal);
       });
   });
   
