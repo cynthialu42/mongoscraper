@@ -22,6 +22,7 @@ $.getJSON("/articles", function(data) {
     })
       // With that done, add the note information to the page
       .then(function(data) {
+        console.log("((((((999999999999999%%%%%%%%%%%%%%%%%%%%%%");
         console.log(data);
         // The title of the article
         $("#notes").append("<h2>" + data.title + "</h2>");
@@ -31,7 +32,7 @@ $.getJSON("/articles", function(data) {
         $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
         // A button to submit a new note, with the id of the article saved to it
         $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
-  
+        
         // If there's a note in the article
         if (data.note) {
           // Place the title of the note in the title input
