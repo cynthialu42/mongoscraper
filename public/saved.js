@@ -35,24 +35,25 @@ $.getJSON("/api/saved", function(data) {
         // save.attr('href', "/save/"+data[i]._id);
         // save.text("/save/"+data[i]._id);
 
+        
+
+        // var numberOfComments = $('<p>');
+        
+        // if(data[i].note.length === 0){
+        //     numberOfComments.text("0 Comments");
+        // }
+        // else{
+        //     numberOfComments.text(data[i].note.length + " Comments");
+        // }
         var comment = $('<button>');
-        comment.attr('type', 'button');
+        // comment.attr('type', 'button');
         comment.attr('data-toggle', 'modal');
         comment.attr('data-target', '#exampleModal');
         comment.attr('data-id', data[i]._id);
-        comment.addClass('btn btn-primary comment-btn');
-        comment.text("comment");
+        comment.addClass('comment-btn');
+        comment.text(data[i].note.length + " Comments");
 
-        var numberOfComments = $('<p>');
-        
-        if(data[i].note.length === 0){
-            numberOfComments.text("0 Comments");
-        }
-        else{
-            numberOfComments.text(data[i].note.length + " Comments");
-        }
-        
-        col8.append(link).append(info).append(numberOfComments).append(comment);
+        col8.append(link).append(info).append(comment);
 
         var col1 = $('<div>');
         col1.addClass('col-1');
@@ -61,7 +62,7 @@ $.getJSON("/api/saved", function(data) {
         button.addClass('delete-btn');
         button.attr('href', '/delete/'+data[i]._id);
         var ximg = $('<i>');
-        ximg.addClass('fas fa-times fa-2x');
+        ximg.addClass('fas fa-times');
         button.attr('data-id', data[i]._id);
 
         button.append(ximg);
@@ -125,9 +126,9 @@ $.getJSON("/api/saved", function(data) {
             console.log(i);
             var notesBlock = $('<div class = "d-flex">');
             var prevName = $("<p class = 'text-left' style = 'width: 30%;left:0;'>");
-            prevName.text(data.note[i].title +" >");
+            prevName.text(data.note[i].title +" :");
 
-            var prevComment = $("<p class = 'text-right' style = 'width: 70%;right:0;'>");
+            var prevComment = $("<p class = 'text-left' style = 'width: 70%;left:0;'>");
             prevComment.text(data.note[i].body);
             notesBlock.append(prevName).append(prevComment);
             $('.modal-body').append(notesBlock);

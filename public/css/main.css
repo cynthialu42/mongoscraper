@@ -12,8 +12,8 @@ body, html {
 }
 
 .background-img{
-    background: url(../images/coffee.jpg);
-    height: 60%;
+    background: url(../images/boredpanda.jpg);
+    height: 70%;
     background-position: top;
     background-size: cover;
 }
@@ -54,4 +54,26 @@ body, html {
 .delete-btn{
     background: none;
     border:none;
+    color: black;
+}
+
+.comment-btn{
+    color: black;
+    background: none;
+    border: none;
+}
+
+.comment-btn:hover{
+    text-decoration: underline;
+}
+
+.black-border{
+    border-top: solid 1px black;
+}
+.black-background{
+    background: rgb(94, 94, 94);
+}
+
+.montserrat{
+    font-family: 'Montserrat', sans-serif;
 }

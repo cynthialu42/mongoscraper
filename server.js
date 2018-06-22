@@ -118,12 +118,15 @@ app.get("/scrape", function(req, res){
 });
 
 app.get('/save/:id', function(req, res){
-    db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: true }, { new: true })
-    .then(function(dbArticle){
-        console.log('success');
-    }).catch(function(err){
-        res.json(err);
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: true }, { new: true }, function(){
+        console.log("ok");
     });
+    // .then(function(dbArticle){
+    //     console.log('success');
+    //     return;
+    // }).catch(function(err){
+    //     res.json(err);
+    // });
 });
 
 app.get('/api/saved', function(req, res){
@@ -140,6 +143,7 @@ app.get('api/saved/:id', function(req, res){
     db.Article.findOne({ _id: req.params.id })
     .then(function(dbArticle){
         console.log('success');
+        return;
     }).catch(function(err){
         res.json(err);
     });

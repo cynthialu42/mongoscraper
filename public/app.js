@@ -32,9 +32,13 @@ $.getJSON("/articles", function(data) {
         info.addClass('card-text').text(data[i].info);
 
         var save = $('<a>');
-        save.addClass('btn btn-primary');
+        save.addClass('btn btn-outline-dark btn-sm save-btn');
         save.attr('href', "/save/"+data[i]._id);
-        save.text("/save/"+data[i]._id);
+        save.attr('data-id', data[i]._id);
+        save.attr('data-toggle', "popover");
+        save.attr('data-trigger', 'focus');
+        save.attr('data-content', 'saved!');
+        save.text("save");
 
         col9.append(link).append(info).append(save);
 
@@ -52,7 +56,18 @@ $.getJSON("/articles", function(data) {
     }
   });
   
-  
+  $(document).on("click", ".save-btn", function(){
+    var thisId = $(this).attr('data-id');
+    console.log(thisId);
+      $('.save-btn').addClass('btn-secondary');
+      $('.save-btn').removeClass('btn-primary');
+  });
+  $(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+    $('.popover-dismiss').popover({
+        trigger: 'focus'
+      })
+  })
 //   // Whenever someone clicks a p tag
 //   $(document).on("click", "p", function() {
 //     // Empty the notes from the note section
