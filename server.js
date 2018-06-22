@@ -27,8 +27,15 @@ app.engine('hbs', exphbs({
 app.set('view engine', '.hbs');
 
 app.use(express.static('public'));
+// If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoscraper";
 
-mongoose.connect("mongodb://localhost/mongoscraper");
+// Set mongoose to leverage built in JavaScript ES6 Promises
+// Connect to the Mongo DB
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
+
+// mongoose.connect("mongodb://localhost/mongoscraper");
 
 // Routes
 
