@@ -25,6 +25,7 @@ app.set('views', './public/views');
 app.engine('hbs', exphbs({
     extname: '.hbs'
 }));
+
 app.set('view engine', '.hbs');
 
 // var routes = require("./controllers/scraperController.js");
