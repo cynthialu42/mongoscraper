@@ -1,8 +1,6 @@
 // Grab the articles as a json
 $.getJSON("/api/saved", function(data) {
-    // For each one
     for (var i = 0; i < data.length; i++) {
-      // Display the apropos information on the page
         var row = $('<div>');
         row.addClass('row article-style');
 
@@ -30,23 +28,7 @@ $.getJSON("/api/saved", function(data) {
         var info = $('<p>');
         info.addClass('card-text').text(data[i].info);
 
-        // var save = $('<a>');
-        // save.addClass('btn btn-primary');
-        // save.attr('href', "/save/"+data[i]._id);
-        // save.text("/save/"+data[i]._id);
-
-        
-
-        // var numberOfComments = $('<p>');
-        
-        // if(data[i].note.length === 0){
-        //     numberOfComments.text("0 Comments");
-        // }
-        // else{
-        //     numberOfComments.text(data[i].note.length + " Comments");
-        // }
         var comment = $('<button>');
-        // comment.attr('type', 'button');
         comment.attr('data-toggle', 'modal');
         comment.attr('data-target', '#exampleModal');
         comment.attr('data-id', data[i]._id);
@@ -70,56 +52,25 @@ $.getJSON("/api/saved", function(data) {
         row.append(col3).append(col8).append(col1);
 
       $('#saved-articles').append(row);
-    //   $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br />" + data[i].info + "<br />" + data[i].img + "</p>");
     }
   });
-  
-//   $(document).on('click', '.comment-btn', function(){
-//     var thisId = $(this).attr('data-id');
-//     console.log(thisId);
 
-//     $.ajax({
-//         method: "GET",
-//         url: "/api/saved/"+thisId
-//     }).then(function(data){
-
-//     })
-//   });
-
-  $(document).on('click', '.delete-btn', function(){
-    var thisId = $(this).attr('data-id');
-    console.log(thisId);
-
-  });
-  // Whenever someone clicks a p tag
   $(document).on("click", ".comment-btn", function() {
     // Empty the notes from the note section
-    // $("#notes").empty();
-    // Save the id from the p tag
-    // $('.modal-popup').empty();
     $('.modal-header').empty();
     $('.modal-footer').empty();
     $('.modal-body').empty();
 
     var thisId = $(this).attr("data-id");
   
-    // Now make an ajax call for the Article
     $.ajax({
       method: "GET",
       url: "/articles/" + thisId
     })
-      // With that done, add the note information to the page
       .then(function(data) {
-        console.log("((((((999999999999999%%%%%%%%%%%%%%%%%%%%%%");
-        console.log(data);
-        // The title of the article
-        // var modal = $("<div class = 'modal fade' id = 'exampleModal' tabindex= '-1' role = 'dialog'>");
-        // var modalDialog = $("<div class = 'modal-dialog' role = 'document'>");
-        // var modalContent = $("<div class = 'modal-content'>");
-        // var modalHeader = $("<div class = 'modal-header'>");
+ 
         var modalTitle = $("<h5 class = 'modal-title'>");
         modalTitle.text(data.title);
-        // var modalBody = $("<div class = 'modal-body'>");
 
         $('.modal-header').append(modalTitle);
         for( var i = 0; i < data.note.length; i++){
@@ -153,7 +104,6 @@ $.getJSON("/api/saved", function(data) {
 
         $('.modal-body').append(form);
 
-        // var modalFooter = $("<div class = 'modal-footer'>");
         var close = $("<button type = 'button' class = 'btn btn-secondary' data-dismiss = 'modal'>");
         close.text("Close");
         var save = $("<button type = 'button' class = 'btn btn-primary' data-dismiss='modal' id = 'savenote'>");
@@ -161,13 +111,7 @@ $.getJSON("/api/saved", function(data) {
         save.text("Save Changes");
 
         $('.modal-footer').append(close).append(save);
-        // modalFooter.append(close).append(save);
-        // modalHeader.append(modalTitle);
-        // modalContent.append(modalHeader).append(modalBody).append(modalFooter);
-        // modalDialog.append(modalContent);
-        // modal.append(modalDialog);
 
-        // $(".modal-popup").append(modal);
       });
   });
   
@@ -180,7 +124,6 @@ $.getJSON("/api/saved", function(data) {
         console.log('EMPTY');
     }
     else{
-        // Run a POST request to change the note, using what's entered in the inputs
         $.ajax({
             method: "POST",
             url: "/articles/" + thisId,
@@ -191,17 +134,12 @@ $.getJSON("/api/saved", function(data) {
             body: $("#bodyinput").val()
             }
         })
-            // With that done
             .then(function(data) {
-            // Log the response
             console.log(data);
-            // Empty the notes section
             $("#notes").empty();
         });
     }
     
-  
-    // Also, remove the values entered in the input and textarea for note entry
     $("#titleinput").val("");
     $("#bodyinput").val("");
     location.reload();

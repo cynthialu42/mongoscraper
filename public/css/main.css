@@ -2,8 +2,6 @@ body, html {
     height: 100%;
     margin: 0;
     font-family: 'Raleway', sans-serif;
-    /* background: url(../images/dust_scratches.png); 
-    background-size: cover; */
 }
 .navbar-style{
     border-bottom: solid 1px black;
@@ -80,11 +78,4 @@ body, html {
 footer{
     bottom: 0;
 }
-/* .wrapper {
-    min-height: 100%;
-    margin-bottom: -50px;
-}
 
-.footer, .push {
-    height: 50px;
-} */
