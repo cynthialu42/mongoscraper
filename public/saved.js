@@ -43,7 +43,16 @@ $.getJSON("/api/saved", function(data) {
         comment.addClass('btn btn-primary comment-btn');
         comment.text("comment");
 
-        col8.append(link).append(info).append(comment);
+        var numberOfComments = $('<p>');
+        
+        if(data[i].note.length === 0){
+            numberOfComments.text("0 Comments");
+        }
+        else{
+            numberOfComments.text(data[i].note.length + " Comments");
+        }
+        
+        col8.append(link).append(info).append(numberOfComments).append(comment);
 
         var col1 = $('<div>');
         col1.addClass('col-1');
@@ -86,6 +95,11 @@ $.getJSON("/api/saved", function(data) {
     // Empty the notes from the note section
     // $("#notes").empty();
     // Save the id from the p tag
+    // $('.modal-popup').empty();
+    $('.modal-header').empty();
+    $('.modal-footer').empty();
+    $('.modal-body').empty();
+
     var thisId = $(this).attr("data-id");
   
     // Now make an ajax call for the Article
@@ -98,21 +112,27 @@ $.getJSON("/api/saved", function(data) {
         console.log("((((((999999999999999%%%%%%%%%%%%%%%%%%%%%%");
         console.log(data);
         // The title of the article
-        var modal = $("<div class = 'modal fade' id = 'exampleModal' tabindex= '-1' role = 'dialog'>");
-        var modalDialog = $("<div class = 'modal-dialog' role = 'document'>");
-        var modalContent = $("<div class = 'modal-content'>");
-        var modalHeader = $("<div class = 'modal-header'>");
+        // var modal = $("<div class = 'modal fade' id = 'exampleModal' tabindex= '-1' role = 'dialog'>");
+        // var modalDialog = $("<div class = 'modal-dialog' role = 'document'>");
+        // var modalContent = $("<div class = 'modal-content'>");
+        // var modalHeader = $("<div class = 'modal-header'>");
         var modalTitle = $("<h5 class = 'modal-title'>");
         modalTitle.text(data.title);
-        var modalBody = $("<div class = 'modal-body'>");
+        // var modalBody = $("<div class = 'modal-body'>");
 
-        // var notes = $("<div ")
-        var notesBlock = $('<div class = "d-flex">');
-        var prevName = $("<p class = 'text-left' style = 'width: 30%;left:0;'>");
-        prevName.text("Cynthia");
-        var prevComment = $("<p class = 'text-right' style = 'width: 70%;right:0;'>");
-        prevComment.text("Hello i like birds alot Hello i like birds alotHello i like birds alotHello i like birds alotHello i like birds alotHello i like birds alotHello i like birds alot");
-        notesBlock.append(prevName).append(prevComment);
+        $('.modal-header').append(modalTitle);
+        for( var i = 0; i < data.note.length; i++){
+            console.log(i);
+            var notesBlock = $('<div class = "d-flex">');
+            var prevName = $("<p class = 'text-left' style = 'width: 30%;left:0;'>");
+            prevName.text(data.note[i].title +" >");
+
+            var prevComment = $("<p class = 'text-right' style = 'width: 70%;right:0;'>");
+            prevComment.text(data.note[i].body);
+            notesBlock.append(prevName).append(prevComment);
+            $('.modal-body').append(notesBlock);
+        }
+
 
         var form = $("<form>");
         var nameGroup = $("<div class='form-group'>");
@@ -130,22 +150,23 @@ $.getJSON("/api/saved", function(data) {
 
         form.append(nameGroup).append(commentGroup);
 
-        modalBody.append(notesBlock).append(form);
+        $('.modal-body').append(form);
 
-        var modalFooter = $("<div class = 'modal-footer'>");
+        // var modalFooter = $("<div class = 'modal-footer'>");
         var close = $("<button type = 'button' class = 'btn btn-secondary' data-dismiss = 'modal'>");
         close.text("Close");
-        var save = $("<button type = 'button' class = 'btn btn-primary' id = 'savenote'>");
+        var save = $("<button type = 'button' class = 'btn btn-primary' data-dismiss='modal' id = 'savenote'>");
         save.attr('data-id', data._id);
         save.text("Save Changes");
 
-        modalFooter.append(close).append(save);
-        modalHeader.append(modalTitle);
-        modalContent.append(modalHeader).append(modalBody).append(modalFooter);
-        modalDialog.append(modalContent);
-        modal.append(modalDialog);
+        $('.modal-footer').append(close).append(save);
+        // modalFooter.append(close).append(save);
+        // modalHeader.append(modalTitle);
+        // modalContent.append(modalHeader).append(modalBody).append(modalFooter);
+        // modalDialog.append(modalContent);
+        // modal.append(modalDialog);
 
-        $(".modal-popup").append(modal);
+        // $(".modal-popup").append(modal);
       });
   });
   
@@ -153,28 +174,35 @@ $.getJSON("/api/saved", function(data) {
   $(document).on("click", "#savenote", function() {
     // Grab the id associated with the article from the submit button
     var thisId = $(this).attr("data-id");
-  
-    // Run a POST request to change the note, using what's entered in the inputs
-    $.ajax({
-      method: "POST",
-      url: "/articles/" + thisId,
-      data: {
-        // Value taken from title input
-        title: $("#titleinput").val(),
-        // Value taken from note textarea
-        body: $("#bodyinput").val()
-      }
-    })
-      // With that done
-      .then(function(data) {
-        // Log the response
-        console.log(data);
-        // Empty the notes section
-        $("#notes").empty();
-      });
+    console.log($("#titleinput").val());
+    if($("#titleinput").val() == "" || $("#bodyinput").val() == ""){
+        console.log('EMPTY');
+    }
+    else{
+        // Run a POST request to change the note, using what's entered in the inputs
+        $.ajax({
+            method: "POST",
+            url: "/articles/" + thisId,
+            data: {
+            // Value taken from title input
+            title: $("#titleinput").val(),
+            // Value taken from note textarea
+            body: $("#bodyinput").val()
+            }
+        })
+            // With that done
+            .then(function(data) {
+            // Log the response
+            console.log(data);
+            // Empty the notes section
+            $("#notes").empty();
+        });
+    }
+    
   
     // Also, remove the values entered in the input and textarea for note entry
     $("#titleinput").val("");
     $("#bodyinput").val("");
+    location.reload();
   });
   
